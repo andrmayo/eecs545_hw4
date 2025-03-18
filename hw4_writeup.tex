@@ -1,0 +1,44 @@
+\documentclass[12 pt]{article}        	%sets the font to 12 pt and says this is an article (as opposed to book or other documents)
+\usepackage{amsfonts, amssymb}					% packages to get the fonts, symbols used in most math
+\usepackage{amsmath}
+\usepackage{graphicx}
+  
+%\usepackage{setspace}               		% Together with \doublespacing below allows for doublespacing of the document
+
+\oddsidemargin=-0.5cm                 	% These three commands create the margins required for class
+\setlength{\textwidth}{6.5in}         	%
+\addtolength{\voffset}{-2pt}        		%
+\addtolength{\headsep}{25pt}           	%
+
+
+
+\pagestyle{myheadings}                           	% tells LaTeX to allow you to enter information in the heading
+\markright{Andrew Mayo\hfill \today \hfill}  
+																									% and put the proposition number from the book
+                                                	% LaTeX will put your name on the left, the date the paper 
+                                                	% is generated in the middle 
+                                                 	% and a page number on the right
+
+
+
+\newcommand{\eqn}[0]{\begin{array}{rcl}}%begin an aligned equation - allows for aligning = or inequalities.  Always use with $$ $$
+\newcommand{\eqnend}[0]{\end{array} }  	%end the aligned equation
+
+%\doublespacing                         	% Together with the package setspace above allows for doublespacing of the document
+
+\newcommand{\qed}[0]{$\square$}        	% make an unfilled square the default for ending a proof
+
+\begin{document}												% end of preamble and beginning of text that will be printed 
+
+\textbf{1 (c)} 
+
+Test accuracy for CIFAR dataset: 42.08\%
+
+\begin{figure}[h!]
+  \includegraphics[width=\linewidth]{cnn.png}
+\end{figure}
+
+
+\textbf{2 (a)} 
+
+\end{document}
