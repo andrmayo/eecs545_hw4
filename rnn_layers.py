@@ -224,11 +224,14 @@ def temporal_fc_backward(dout, cache):
     - db: Gradient of biases, of shape (M,)
     """
     dx, dw, db = None, None, None
-
     ###########################################################################
     # TODO: Implement the backward pass.
     ###########################################################################
-    raise NotImplementedError("TODO: Add your implementation here.")
+    x, w, b, _ = cache
+    db = np.zeros_like(b)
+    dx = dout @ w.T
+    dw = np.einsum("ntd,ntm->dm", x, dout, optimize=True)
+    db = dout.sum(axis=(0, 1))
     ###########################################################################
     #                             END OF YOUR CODE                            #
     ###########################################################################

@@ -83,19 +83,19 @@ class CaptioningSolver:
         self.data = data
 
         # Unpack keyword arguments
-        update_rule = kwargs.pop('update_rule', 'sgd')
-        self.optim_config = kwargs.pop('optim_config', {})
-        self.lr_decay = kwargs.pop('lr_decay', 1.0)
-        self.batch_size = kwargs.pop('batch_size', 100)
-        self.num_epochs = kwargs.pop('num_epochs', 10)
+        update_rule = kwargs.pop("update_rule", "sgd")
+        self.optim_config = kwargs.pop("optim_config", {})
+        self.lr_decay = kwargs.pop("lr_decay", 1.0)
+        self.batch_size = kwargs.pop("batch_size", 100)
+        self.num_epochs = kwargs.pop("num_epochs", 10)
 
-        self.print_every = kwargs.pop('print_every', 10)
-        self.verbose = kwargs.pop('verbose', True)
+        self.print_every = kwargs.pop("print_every", 10)
+        self.verbose = kwargs.pop("verbose", True)
 
         # Throw an error if there are extra keyword arguments
         if len(kwargs) > 0:
-            extra = ', '.join('"%s"' % k for k in list(kwargs.keys()))
-            raise ValueError('Unrecognized arguments %s' % extra)
+            extra = ", ".join('"%s"' % k for k in list(kwargs.keys()))
+            raise ValueError("Unrecognized arguments %s" % extra)
 
         # Make sure the update rule exists, then replace the string
         # name with the actual function
@@ -104,7 +104,6 @@ class CaptioningSolver:
         self.update_rule = getattr(optim, update_rule)
 
         self._reset()
-
 
     def _reset(self):
         """
@@ -125,16 +124,15 @@ class CaptioningSolver:
             d = {k: v for k, v in self.optim_config.items()}
             self.optim_configs[p] = d
 
-
     def _step(self):
         """
         Make a single gradient update. This is called by train() and should not
         be called manually.
         """
         # Make a minibatch of training data
-        minibatch = coco_utils.sample_coco_minibatch(self.data,
-                      batch_size=self.batch_size,
-                      split='train')
+        minibatch = coco_utils.sample_coco_minibatch(
+            self.data, batch_size=self.batch_size, split="train"
+        )
         captions, features, urls = minibatch
 
         # Compute loss and gradient
@@ -148,7 +146,6 @@ class CaptioningSolver:
             next_w, next_config = self.update_rule(w, dw, config)
             self.model.params[p] = next_w
             self.optim_configs[p] = next_config
-
 
     def check_accuracy(self, X, y, num_samples=None, batch_size=100):
         """
@@ -189,12 +186,11 @@ class CaptioningSolver:
 
         return acc
 
-
     def train(self):
         """
         Run optimization to train the model.
         """
-        num_train = self.data['train_captions'].shape[0]
+        num_train = self.data["train_captions"].shape[0]
         iterations_per_epoch = max(num_train // self.batch_size, 1)
         num_iterations = self.num_epochs * iterations_per_epoch
 
@@ -203,8 +199,10 @@ class CaptioningSolver:
 
             # Maybe print training loss
             if self.verbose and t % self.print_every == 0:
-                print('(Iteration %d / %d) loss: %f' % (
-                       t + 1, num_iterations, self.loss_history[-1]))
+                print(
+                    "(Iteration %d / %d) loss: %f"
+                    % (t + 1, num_iterations, self.loss_history[-1])
+                )
 
             # At the end of every epoch, increment the epoch counter and decay the
             # learning rate.
@@ -212,7 +210,7 @@ class CaptioningSolver:
             if epoch_end:
                 self.epoch += 1
                 for k in self.optim_configs:
-                    self.optim_configs[k]['learning_rate'] *= self.lr_decay
+                    self.optim_configs[k]["learning_rate"] *= self.lr_decay
 
             # Check train and val accuracy on the first iteration, the last
             # iteration, and at the end of each epoch.
