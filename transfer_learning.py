@@ -19,8 +19,17 @@ def hello():
     """
     print("Hello from transfer_learning.py!")
 
-def train_model(device, dataloaders, dataset_sizes, model, criterion,
-                optimizer, scheduler, num_epochs=25):
+
+def train_model(
+    device,
+    dataloaders,
+    dataset_sizes,
+    model,
+    criterion,
+    optimizer,
+    scheduler,
+    num_epochs=25,
+):
     since = time.time()
 
     best_model_wts = copy.deepcopy(model.state_dict())
@@ -32,7 +41,7 @@ def train_model(device, dataloaders, dataset_sizes, model, criterion,
         running_corrects = 0
 
         # Iterate over data.
-        for inputs, labels in dataloaders['val']:
+        for inputs, labels in dataloaders["val"]:
             inputs = inputs.to(device)
             labels = labels.to(device)
 
@@ -43,20 +52,20 @@ def train_model(device, dataloaders, dataset_sizes, model, criterion,
             # statistics
             running_corrects += torch.sum(preds == labels.data)
 
-        best_acc = running_corrects.double() / dataset_sizes['val']
+        best_acc = running_corrects.double() / dataset_sizes["val"]
 
     # Training for num_epochs steps
     for epoch in range(num_epochs):
-        print('Epoch {}/{}'.format(epoch, num_epochs - 1))
-        print('-' * 10)
+        print("Epoch {}/{}".format(epoch, num_epochs - 1))
+        print("-" * 10)
 
         # Each epoch has a training and validation phase
-        for phase in ['train', 'val']:
-            if phase == 'train':
+        for phase in ["train", "val"]:
+            if phase == "train":
                 scheduler.step()
                 model.train()  # Set model to training mode
             else:
-                model.eval()   # Set model to evaluate mode
+                model.eval()  # Set model to evaluate mode
 
             running_loss = 0.0
             running_corrects = 0
@@ -71,7 +80,7 @@ def train_model(device, dataloaders, dataset_sizes, model, criterion,
 
                 # forward
                 # track history if only in train
-                with torch.set_grad_enabled(phase == 'train'):
+                with torch.set_grad_enabled(phase == "train"):
                     loss = None
                     preds = None
                     ####################################################################################
@@ -85,12 +94,14 @@ def train_model(device, dataloaders, dataset_sizes, model, criterion,
                     # - preds : int tensor (N)                                                         #
                     # - loss : torch scalar                                                            #
                     ####################################################################################
-                    raise NotImplementedError("TODO: Add your implementation here.")
+                    outputs = model(inputs)
+                    _, preds = torch.max(outputs, 1)
+                    loss = criterion(outputs, labels)
                     ####################################################################################
                     #                             END OF YOUR CODE                                     #
                     ####################################################################################
                     # backward + optimize only if in training phase
-                    if phase == 'train':
+                    if phase == "train":
                         loss.backward()
                         optimizer.step()
 
@@ -100,18 +111,20 @@ def train_model(device, dataloaders, dataset_sizes, model, criterion,
 
             epoch_loss = running_loss / dataset_sizes[phase]
             epoch_acc = running_corrects.double() / dataset_sizes[phase]
-            print('{} Loss: {:.4f} Acc: {:.4f}'.format(
-                phase, epoch_loss, epoch_acc))
+            print("{} Loss: {:.4f} Acc: {:.4f}".format(phase, epoch_loss, epoch_acc))
 
             # deep copy the model
-            if phase == 'val' and epoch_acc > best_acc:
+            if phase == "val" and epoch_acc > best_acc:
                 best_acc = epoch_acc
                 best_model_wts = copy.deepcopy(model.state_dict())
 
     time_elapsed = time.time() - since
-    print('Training complete in {:.0f}m {:.0f}s'.format(
-        time_elapsed // 60, time_elapsed % 60))
-    print('Best val Acc: {:4f}'.format(best_acc))
+    print(
+        "Training complete in {:.0f}m {:.0f}s".format(
+            time_elapsed // 60, time_elapsed % 60
+        )
+    )
+    print("Best val Acc: {:4f}".format(best_acc))
 
     # load best model weights
     if num_epochs > 0:
@@ -129,7 +142,7 @@ def visualize_model(device, dataloaders, model, class_names, num_images=6):
     captions = []
 
     with torch.no_grad():
-        for i, (inputs, labels) in enumerate(dataloaders['val']):
+        for i, (inputs, labels) in enumerate(dataloaders["val"]):
             inputs = inputs.to(device)
             labels = labels.to(device)
 
@@ -142,15 +155,17 @@ def visualize_model(device, dataloaders, model, class_names, num_images=6):
             for j in range(inputs.size()[0]):
                 images_so_far += 1
                 images.append(inputs.cpu().data[j])
-                captions.append(f'{class_names[labels.cpu()[j].item()]}\npredicted: {class_names[preds[j]]}')
+                captions.append(
+                    f"{class_names[labels.cpu()[j].item()]}\npredicted: {class_names[preds[j]]}"
+                )
                 if images_so_far == num_images:
                     model.train(mode=was_training)
                     return images, captions
         model.train(mode=was_training)
         return images, captions
 
-def finetune(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
 
+def finetune(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
     # This is a pretrained Resnet 18 network that we are going to finetune.
     model_ft = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
 
@@ -158,7 +173,8 @@ def finetune(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
     # TODO: Replace the last layer of model_ft with a linear layer with 2 output       #
     # classes                                                                          #
     ####################################################################################
-    raise NotImplementedError("TODO: Add your implementation here.")
+    num_ftrs = model_ft.fc.in_features
+    model_ft.fc = nn.Linear(num_ftrs, 2)
     ####################################################################################
     #                             END OF YOUR CODE                                     #
     ####################################################################################
@@ -171,7 +187,8 @@ def finetune(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
     # See torch.nn.CrossEntropyLoss for the details about cross entropy loss           #
     # You can see the optimizers in torch.optim.                                       #
     ####################################################################################
-    raise NotImplementedError("TODO: Add your implementation here.")
+    criterion = nn.CrossEntropyLoss()
+    optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
     ####################################################################################
     #                             END OF YOUR CODE                                     #
     ####################################################################################
@@ -180,16 +197,33 @@ def finetune(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
     # Show the performance with the pretrained-model, not finetuned yet
-    print('Performance of pre-trained model without finetuning')
-    _ = train_model(device, dataloaders, dataset_sizes, model_ft,
-                    criterion, optimizer_ft, exp_lr_scheduler, num_epochs=0)
+    print("Performance of pre-trained model without finetuning")
+    _ = train_model(
+        device,
+        dataloaders,
+        dataset_sizes,
+        model_ft,
+        criterion,
+        optimizer_ft,
+        exp_lr_scheduler,
+        num_epochs=0,
+    )
 
     # Finetune the model for 25 epoches
-    print('Finetune the model')
-    model_ft = train_model(device, dataloaders, dataset_sizes, model_ft,
-                           criterion, optimizer_ft, exp_lr_scheduler, num_epochs=num_epochs)
+    print("Finetune the model")
+    model_ft = train_model(
+        device,
+        dataloaders,
+        dataset_sizes,
+        model_ft,
+        criterion,
+        optimizer_ft,
+        exp_lr_scheduler,
+        num_epochs=num_epochs,
+    )
 
     return model_ft
+
 
 def freeze(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
     model_conv = torchvision.models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
@@ -200,22 +234,22 @@ def freeze(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
     # Hint: You can get all parameters of a module x via x.parameters()                #
     # Hint: Searching online for 'freezing pytorch model' will also help               #
     ####################################################################################
-    raise NotImplementedError("TODO: Add your implementation here.")
+    for param in model_conv.parameters():
+        param.requires_grad = False
     ####################################################################################
     #                             END OF YOUR CODE                                     #
     ####################################################################################
-
 
     ####################################################################################
     # TODO: Replace last layer in with a linear layer having 2 output classes          #
     # Parameters of newly constructed modules have requires_grad=True by default       #
     ####################################################################################
-    raise NotImplementedError("TODO: Add your implementation here.")
+    num_ftrs = model_conv.fc.in_features
+    model_conv.fc = nn.Linear(num_ftrs, 2)
     ####################################################################################
     #                             END OF YOUR CODE                                     #
     ####################################################################################
     model_conv = model_conv.to(device)
-
 
     ####################################################################################
     # TODO: Set the `criterion` and `optimizer_conv` variables here.                   #
@@ -223,21 +257,37 @@ def freeze(device, dataloaders, dataset_sizes, class_names, num_epochs=10):
     # classification, you will need cross entorpy loss for the criterion.              #
     # Note: Make sure that the optimizer only updates the parameters of the last layer #
     ####################################################################################
-    raise NotImplementedError("TODO: Add your implementation here.")
+    criterion = nn.CrossEntropyLoss()
+    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
     ####################################################################################
     #                             END OF YOUR CODE                                     #
     ####################################################################################
 
-
     # Decay LR by a factor of 0.1 every 7 epochs
     exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
-    print('Performance of pre-trained model without finetuning')
-    _ = train_model(device, dataloaders, dataset_sizes, model_conv, criterion,
-                    optimizer_conv, exp_lr_scheduler, num_epochs=0)
+    print("Performance of pre-trained model without finetuning")
+    _ = train_model(
+        device,
+        dataloaders,
+        dataset_sizes,
+        model_conv,
+        criterion,
+        optimizer_conv,
+        exp_lr_scheduler,
+        num_epochs=0,
+    )
 
-    print('Finetune the model')
-    model_conv = train_model(device, dataloaders, dataset_sizes, model_conv,
-                             criterion, optimizer_conv, exp_lr_scheduler, num_epochs=num_epochs)
+    print("Finetune the model")
+    model_conv = train_model(
+        device,
+        dataloaders,
+        dataset_sizes,
+        model_conv,
+        criterion,
+        optimizer_conv,
+        exp_lr_scheduler,
+        num_epochs=num_epochs,
+    )
 
     return model_conv

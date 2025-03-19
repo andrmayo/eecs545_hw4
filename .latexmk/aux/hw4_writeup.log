@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2025.1.28)  18 MAR 2025 01:09
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2025.1.28)  19 MAR 2025 14:24
  restricted system commands enabled.
  file:line:error style messages enabled.
 **hw4_writeup.tex
@@ -143,11 +143,80 @@ File: luatex.def 2024/04/13 v1.2e Graphics/color driver for luatex
 ))
 \Gin@req@height=\dimen150
 \Gin@req@width=\dimen151
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2024/09/14 v1.9i multicolumn formatting (FMi)
+\c@tracingmulticols=\count280
+\mult@box=\box54
+\multicol@leftmargin=\dimen152
+\c@unbalance=\count281
+\c@collectmore=\count282
+\doublecol@number=\count283
+\multicoltolerance=\count284
+\multicolpretolerance=\count285
+\full@width=\dimen153
+\page@free=\dimen154
+\premulticols=\dimen155
+\postmulticols=\dimen156
+\multicolsep=\skip54
+\multicolbaselineskip=\skip55
+\partial@page=\box55
+\last@line=\box56
+\mc@boxedresult=\box57
+\maxbalancingoverflow=\dimen157
+\mult@rightbox=\box58
+\mult@grightbox=\box59
+\mult@firstbox=\box60
+\mult@gfirstbox=\box61
+\@tempa=\box62
+\@tempa=\box63
+\@tempa=\box64
+\@tempa=\box65
+\@tempa=\box66
+\@tempa=\box67
+\@tempa=\box68
+\@tempa=\box69
+\@tempa=\box70
+\@tempa=\box71
+\@tempa=\box72
+\@tempa=\box73
+\@tempa=\box74
+\@tempa=\box75
+\@tempa=\box76
+\@tempa=\box77
+\@tempa=\box78
+\@tempa=\box79
+\@tempa=\box80
+\@tempa=\box81
+\@tempa=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\c@minrows=\count286
+\c@columnbadness=\count287
+\c@finalcolumnbadness=\count288
+\last@try=\dimen158
+\multicolovershoot=\dimen159
+\multicolundershoot=\dimen160
+\mult@nat@firstbox=\box98
+\colbreak@box=\box99
+\mc@col@check@num=\count289
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2024-05-08 L3 backend support: PDF output (LuaTeX)
-\l__color_backend_stack_int=\count280
+\l__color_backend_stack_int=\count290
 Inserting `l3color' in `luaotfload.parse_color'.
-\l__pdf_internal_box=\box54
+\l__pdf_internal_box=\box100
 ) (./.latexmk/aux/hw4_writeup.aux)
 \openout1 = hw4_writeup.aux
 
@@ -169,16 +238,16 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
 LaTeX Font Info:    ... okay on input line 31.
  (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count281
-\scratchdimen=\dimen152
-\scratchbox=\box55
-\nofMPsegments=\count282
-\nofMParguments=\count283
+\scratchcounter=\count291
+\scratchdimen=\dimen161
+\scratchbox=\box101
+\nofMPsegments=\count292
+\nofMParguments=\count293
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count284
-\MPscratchDim=\dimen153
-\MPnumerator=\count285
-\makeMPintoPDFobject=\count286
+\MPscratchCnt=\count294
+\MPscratchDim=\dimen162
+\MPnumerator=\count295
+\makeMPintoPDFobject=\count296
 \everyMPtoPDFconversion=\toks25
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -191,11 +260,69 @@ File: cnn.png Graphic file (type png)
 <use cnn.png>
 Package luatex.def Info: cnn.png  used on input line 38.
 (luatex.def)             Requested size: 469.75499pt x 201.32686pt.
+<image_captioning_loss.png, id=2, 722.7pt x 578.16pt>
+File: image_captioning_loss.png Graphic file (type png)
+<use image_captioning_loss.png>
+Package luatex.def Info: image_captioning_loss.png  used on input line 45.
+(luatex.def)             Requested size: 234.87749pt x 187.89977pt.
+<captions_training.png, id=3, 405.54388pt x 299.63037pt>
+File: captions_training.png Graphic file (type png)
+<use captions_training.png>
+Package luatex.def Info: captions_training.png  used on input line 49.
+(luatex.def)             Requested size: 328.82706pt x 242.95529pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<captions_validation.png, id=4, 405.54388pt x 299.63037pt>
+File: captions_validation.png Graphic file (type png)
+<use captions_validation.png>
+Package luatex.def Info: captions_validation.png  used on input line 53.
+(luatex.def)             Requested size: 328.82706pt x 242.95529pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 
 
 [1{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
-<./cnn.png>] (./.latexmk/aux/hw4_writeup.aux)
+<./cnn.png><./image_captioning_loss.png>]
+
+[2<./captions_training.png><./captions_validation.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 62--63
+
+ []
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 64.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 64.
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 10000) in paragraph at lines 101--102
+
+ []
+
+
+
+[3
+
+]
+<tl_finetuned.png, id=21, 309.87712pt x 267.97926pt>
+File: tl_finetuned.png Graphic file (type png)
+<use tl_finetuned.png>
+Package luatex.def Info: tl_finetuned.png  used on input line 147.
+(luatex.def)             Requested size: 281.85585pt x 243.74701pt.
+<tl_frozen.png, id=22, 309.87712pt x 264.28664pt>
+File: tl_frozen.png Graphic file (type png)
+<use tl_frozen.png>
+Package luatex.def Info: tl_frozen.png  used on input line 151.
+(luatex.def)             Requested size: 281.85585pt x 240.38829pt.
+
+
+[4<./tl_finetuned.png><./tl_frozen.png>] (./.latexmk/aux/hw4_writeup.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-25>
@@ -203,19 +330,19 @@ L3 programming layer <2024-12-25>
 )
 
 Here is how much of LuaTeX's memory you used:
- 2526 strings out of 475518
- 100000,552014 words of node,token memory allocated
- 479 words of node memory still in use:
-   6 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 6 attribute, 51 glue_spec, 6 attribute_list, 1 write nodes
-   avail lists: 2:72,3:28,4:1,5:32,6:8,7:226,9:54,11:8
- 25534 multiletter control sequences out of 65536+600000
- 17 fonts using 986807 bytes
- 57i,6n,62p,220b,242s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 2756 strings out of 475518
+ 100000,662416 words of node,token memory allocated
+ 507 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 2 glue, 4 kern, 1 glyph, 7 attribute, 54 glue_spec, 7 attribute_list, 1 write nodes
+   avail lists: 1:1,2:802,3:58,4:1,5:271,6:15,7:7435,8:1,9:1771,11:32
+ 25739 multiletter control sequences out of 65536+600000
+ 35 fonts using 2103295 bytes
+ 57i,6n,62p,222b,242s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmroman12-regular.otf></usr/local/texlive/2024/texmf-dist/fonts/opentype/public/lm/lmromanslant12-regular.otf>
-Output written on hw4_writeup.pdf (1 page, 223375 bytes).
+Output written on hw4_writeup.pdf (4 pages, 1733357 bytes).
 
-PDF statistics: 31 PDF objects out of 1000 (max. 8388607)
- 16 compressed objects within 1 object stream
+PDF statistics: 46 PDF objects out of 1000 (max. 8388607)
+ 22 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
