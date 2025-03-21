@@ -1,9 +1,8 @@
-
-
 import math
 import torch
 import torch.nn as nn
 from torch.nn import functional as F
+
 
 def hello():
     """
@@ -12,31 +11,44 @@ def hello():
     """
     print("Hello from transformer.py!")
 
+
 class MaskedAttention(nn.Module):
     # Masked/Causal Self-Attention
     def __init__(self, embedding_dim, n_head, block_size):
         super().__init__()
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.embedding_dim = embedding_dim
         self.n_head = n_head
-        self.attention = nn.Linear(self.embedding_dim, 3*self.embedding_dim) #key, query, and value
+        self.attention = nn.Linear(
+            self.embedding_dim, 3 * self.embedding_dim
+        )  # key, query, and value
         self.fc = nn.Linear(self.embedding_dim, self.embedding_dim)
         self.drop1 = nn.Dropout(0.1)
         self.drop2 = nn.Dropout(0.1)
-        self.register_buffer("bias", 
-                             torch.tril(torch.ones(block_size, block_size)).view(1, 1, block_size, block_size))
+        self.register_buffer(
+            "bias",
+            torch.tril(torch.ones(block_size, block_size)).view(
+                1, 1, block_size, block_size
+            ),
+        )
 
     def split(self, values):
+        # B is batch, T is timestep
+        # after transpose we get B, n_head, T, C // self.n_head
         B, T, C = values.shape
         return values.view(B, T, self.n_head, C // self.n_head).transpose(1, 2)
 
     def apply_mask(self, attention):
+        attention = attention
         T = attention.shape[-1]
-        causal_mask = self.bias[:,:,:T,:T]
-        attention = attention.masked_fill(causal_mask == 0, float('-inf'))
+        causal_mask = self.bias[:, :, :T, :T]
+        attention = attention.masked_fill(
+            causal_mask.to(self.device) == 0, float("-inf")
+        )
         return attention
 
     def forward(self, x):
-        Q, K, V  = self.attention(x).split(self.embedding_dim, dim=2)
+        Q, K, V = self.attention(x).to(self.device).split(self.embedding_dim, dim=2)
         Q, K, V = self.split(Q), self.split(K), self.split(V)
         ###########################################################################
         # TODO: Implement the masked attention network.                           #
@@ -53,14 +65,23 @@ class MaskedAttention(nn.Module):
         # Output shape: att:                                                      #
         #              [batch_size, num_head, sequence_len, sequence_len]         #
         ###########################################################################
-        raise NotImplementedError("TODO: Add your implementation here.")
+        logits = torch.zeros(Q.shape[0], Q.shape[1], Q.shape[2], Q.shape[2]).to(
+            self.device
+        )
+        for i, (q_batch, k_batch) in enumerate(zip(Q, K)):
+            logits[i] = torch.bmm(q_batch, k_batch.transpose(1, 2))
+        d_K = torch.tensor([K.shape[-1]], dtype=Q.dtype).to(self.device)
+        logits = self.apply_mask(logits) / torch.sqrt(d_K)
+        att = torch.softmax(logits, -1)
         ###########################################################################
         #                             END OF YOUR CODE                            #
         ###########################################################################
         y = self.drop1(att) @ V
         y = y.transpose(1, 2).reshape(x.size())
+        self.fc.to(self.device)
         y = self.drop2(self.fc(y))
         return y
+
 
 class Block(nn.Module):
     def __init__(self, embedding_dim, n_head, block_size):
@@ -71,7 +92,6 @@ class Block(nn.Module):
         self.fc2 = nn.Linear(4 * embedding_dim, embedding_dim)
         self.attn = MaskedAttention(embedding_dim, n_head, block_size)
         self.drop = nn.Dropout(0.1)
-
 
     def forward(self, x):
         x = x + self.attn(self.ln1(x))
@@ -86,7 +106,9 @@ class Transformer(nn.Module):
         self.emb = nn.Embedding(vocab_size, embedding_dim)
         self.pos = nn.Embedding(block_size, embedding_dim)
         self.drop = nn.Dropout(0.1)
-        self.attention = nn.ModuleList([Block(embedding_dim, n_head, block_size) for _ in range(n_layer)])
+        self.attention = nn.ModuleList(
+            [Block(embedding_dim, n_head, block_size) for _ in range(n_layer)]
+        )
         self.ln = nn.LayerNorm(embedding_dim)
 
     def forward(self, x):
@@ -102,26 +124,21 @@ class Transformer(nn.Module):
 
 
 class GPT(nn.Module):
-    def __init__(self,
-                 n_layer,
-                 n_head,
-                 embedding_dim,
-                 vocab_size,
-                 block_size):
+    def __init__(self, n_layer, n_head, embedding_dim, vocab_size, block_size):
         super().__init__()
         self.block_size = block_size
         self.n_layer, self.n_head, self.embedding_dim = n_layer, n_head, embedding_dim
         self.vocab_size = vocab_size
         self.block_size = block_size
-        self.transformer = Transformer(self.n_layer,
-                                       self.n_head,
-                                       self.embedding_dim,
-                                       self.vocab_size,
-                                       self.block_size)
-        
-        self.head = nn.Linear(self.embedding_dim,
-                              self.vocab_size,
-                              bias=False)
+        self.transformer = Transformer(
+            self.n_layer,
+            self.n_head,
+            self.embedding_dim,
+            self.vocab_size,
+            self.block_size,
+        )
+
+        self.head = nn.Linear(self.embedding_dim, self.vocab_size, bias=False)
 
         self.apply(self._init_weights)
 
@@ -136,7 +153,6 @@ class GPT(nn.Module):
         elif isinstance(module, nn.Embedding):
             torch.nn.init.normal_(module.weight, mean=0.0, std=0.02)
 
-
     def forward(self, inputs, target=None):
         x = self.transformer(inputs)
         logits = self.head(x)
@@ -146,17 +162,15 @@ class GPT(nn.Module):
             loss = F.cross_entropy(logits.view(-1, logits.size(-1)), target.view(-1))
             return logits, loss
 
-    def generate(self,
-                 inputs,
-                 required_chars, 
-                 sampling=False,
-                 top_k=None):
+    def generate(self, inputs, required_chars, sampling=False, top_k=None):
         with torch.no_grad():
-            for _ in range(required_chars): #tokens actually, but the datasets are chars
-                logits = self(inputs[:, -self.block_size:])[0][:, -1, :]
-                if top_k: #only consider top k candidates
+            for _ in range(
+                required_chars
+            ):  # tokens actually, but the datasets are chars
+                logits = self(inputs[:, -self.block_size :])[0][:, -1, :]
+                if top_k:  # only consider top k candidates
                     top_vals, _ = torch.topk(logits, top_k)
-                    logits[logits < top_vals[:, -1]] = -float('Inf')
+                    logits[logits < top_vals[:, -1]] = -float("Inf")
                 probs = F.softmax(logits, dim=-1)
                 if sampling:
                     next_char = torch.multinomial(probs, num_samples=1)

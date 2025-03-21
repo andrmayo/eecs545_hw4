@@ -1,6 +1,6 @@
 # Fdb version 4
-["lualatex"] 1742408674.30796 "hw4_writeup.tex" ".latexmk/out/hw4_writeup.pdf" "hw4_writeup" 1742408675.57356 0
-  ".latexmk/aux/hw4_writeup.aux" 1742408675.47207 32 c81c40425fbb5e93b90fba65da0b5e61 "lualatex"
+["lualatex"] 1742508299.44493 "hw4_writeup.tex" ".latexmk/out/hw4_writeup.pdf" "hw4_writeup" 1742508300.64517 0
+  ".latexmk/aux/hw4_writeup.aux" 1742508300.52359 32 77e0dffd05b653a64f0caf3eb9bb454a "lualatex"
   "/home/andrew/.texlive2024/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-bold.luc" 1740552737.05207 128299 72c3628d60d9ce0e94f8ba18e29b9e12 ""
   "/home/andrew/.texlive2024/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-regular.luc" 1740552736.94007 127670 049e7acc85bd3faf58355383ea5fbd4e ""
   "/home/andrew/.texlive2024/texmf-var/luatex-cache/generic/fonts/otl/lmromanslant12-regular.luc" 1740552737.12807 129207 0b4d53da77f95023bdc54c92d86a7c9a ""
@@ -103,10 +103,11 @@
   "/usr/local/texlive/2024/texmf-dist/tex/luatex/luaotfload/luaotfload.lua" 1709155629 13565 50482dad4c221a79dbdbb982122baf8c ""
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1738042346 5466570 e8651e7fa7bb054fee9a07d3f37faf28 ""
   "/usr/local/texlive/2024/texmf-var/web2c/luahbtex/lualatex.fmt" 1738042422 5712225 df7a08e9bb91774aa1c64761b5af8f34 ""
+  "autograder_screenshot.png" 1742507736.96358 27375 dcb98d63e44a6f37b525afcd64b0d030 ""
   "captions_training.png" 1742402604.12402 386057 432678f18aab6281019050b5043b9af5 ""
   "captions_validation.png" 1742402632.30402 365983 81aea756aac70d4a22862ff8a8005f49 ""
   "cnn.png" 1742271339.49236 312147 f006ecc6d09add0ae071421eb5890b85 ""
-  "hw4_writeup.tex" 1742408670.80407 4013 8c756d7ccf438bfcde3ed987434ecaa3 ""
+  "hw4_writeup.tex" 1742508298.31959 7404 67af56a97b462d409258a3aff7b6d1c4 ""
   "image_captioning_loss.png" 1742379977.17241 108442 15dfc6b45c76e24b6ce90301e428feb6 ""
   "tl_finetuned.png" 1742408535.56407 363396 223e21702bb7bd6b754b0f52da4907c2 ""
   "tl_frozen.png" 1742408605.54007 287507 fc6678806cf290fdcd536d869b8440e7 ""

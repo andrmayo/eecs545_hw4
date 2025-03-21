@@ -98,6 +98,8 @@ INPUT ./captions_validation.png
 INPUT /home/andrew/.texlive2024/texmf-var/luatex-cache/generic/fonts/otl/lmromanslant12-regular.luc
 OUTPUT .latexmk/aux/hw4_writeup.pdf
 INPUT /usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+INPUT ./autograder_screenshot.png
+INPUT ./autograder_screenshot.png
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmr6.tfm
